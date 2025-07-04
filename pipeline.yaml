@@ -71,7 +71,6 @@ Resources:
                 BranchName: !Ref GitHubBranch
                 ConnectionArn: !Ref GitHubConnectionArn
                 FullRepositoryId: tejas-futuralis/codepipeline-cloudformation
-                PollForSourceChanges: false
               RunOrder: 1                                         
 
         - Name: DeployS3
