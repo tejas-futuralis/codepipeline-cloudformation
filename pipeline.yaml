@@ -46,6 +46,7 @@ Resources:
                   - cloudformation:*
                   - s3:*
                   - iam:*
+                  - codestar-connections:*
                 Resource: "*"
 
   MyCodePipeline:
