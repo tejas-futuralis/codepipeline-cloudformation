@@ -11,9 +11,9 @@ Parameters:
     Type: String
     Default: main
     Description: GitHub branch to monitor
-  GitHubToken:
+  GitHubConnectionArn:
     Type: String
-    NoEcho: true
+    Description: Connection arn that connects to github
 
 Resources:
 
@@ -71,8 +71,7 @@ Resources:
                 Owner: !Ref GitHubOwner
                 Repo: !Ref GitHubRepo
                 Branch: !Ref GitHubBranch
-                ConnectionArn: >- 
-                  arn:aws:codeconnections:us-east-1:885885860822:connection/814e63dc-c551-415a-bb99-bf05ade9445f
+                ConnectionArn: !Ref GitHubConnectionArn
                 PollForSourceChanges: false
               RunOrder: 1
 
@@ -113,8 +112,7 @@ Resources:
   Webhook:
     Type: AWS::CodePipeline::Webhook
     Properties:
-      ConnectionArn: >- 
-        arn:aws:codeconnections:us-east-1:885885860822:connection/814e63dc-c551-415a-bb99-bf05ade9445f 
+      ConnectionArn: !Ref GitHubConnectionArn
       Filters:
       - JsonPath: "$.ref"
         MatchEquals: refs/heads/main
