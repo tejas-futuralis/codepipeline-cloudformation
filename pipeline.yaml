@@ -1,12 +1,12 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
 Parameters:
-  GitHubOwner:
-    Type: String
-    Description: GitHub repository owner 
-  GitHubRepo:
-    Type: String
-    Description: GitHub repository name 
+  # GitHubOwner:
+  #   Type: String
+  #   Description: GitHub repository owner 
+  # GitHubRepo:
+  #   Type: String
+  #   Description: GitHub repository name 
   GitHubBranch:
     Type: String
     Default: main
@@ -62,18 +62,17 @@ Resources:
             - Name: GitHub_Source
               ActionTypeId:
                 Category: Source
-                Owner: ThirdParty
-                Provider: GitHub
+                Owner: AWS
+                Provider: CodeStarSourceConnection
                 Version: 1
               OutputArtifacts:
                 - Name: SourceOutput
               Configuration:
-                Owner: !Ref GitHubOwner
-                Repo: !Ref GitHubRepo
-                Branch: !Ref GitHubBranch
+                BranchName: !Ref GitHubBranch
                 ConnectionArn: !Ref GitHubConnectionArn
+                FullRepositoryId: tejas-futuralis/codepipeline-cloudformation
                 PollForSourceChanges: false
-              RunOrder: 1
+              RunOrder: 1                                         
 
         - Name: DeployS3
           Actions:
