@@ -4,4 +4,5 @@ Resources:
 
   ExampleBucket:
     Type: AWS::S3::Bucket
-    BucketName: !Sub "examplebucket-${AWS::Region}-${AWS::AccountId}"
+    Properties:
+      BucketName: !Sub "examplebucket-${AWS::AccountId}"
