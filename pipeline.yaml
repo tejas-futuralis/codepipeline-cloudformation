@@ -107,22 +107,3 @@ Resources:
                 TemplatePath: SourceOutput::iam.yaml
                 Capabilities: CAPABILITY_NAMED_IAM
                 RoleArn: !GetAtt PipelineRole.Arn
-
-  Webhook:
-    Type: AWS::CodePipeline::Webhook
-    Properties:
-      ConnectionArn: >-
-        arn:aws:codeconnections:us-east-1:885885860822:connection/814e63dc-c551-415a-bb99-bf05ade9445f
-      Filters:
-      - JsonPath: "$.ref"
-        MatchEquals: refs/heads/main
-      Authentication: GITHUB_HMAC
-      TargetPipeline:
-        Ref: MyCodePipeline
-      TargetAction: GitHub_Source
-      Name: MyWebhook
-      TargetPipelineVersion:
-        Fn::GetAtt:
-        - MyCodePipeline
-        - Version
-      RegisterWithThirdParty: 'true'
