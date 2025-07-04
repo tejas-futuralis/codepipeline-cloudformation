@@ -1,19 +1,19 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-Parameters:
+# Parameters:
   # GitHubOwner:
   #   Type: String
   #   Description: GitHub repository owner 
   # GitHubRepo:
   #   Type: String
   #   Description: GitHub repository name 
-  GitHubBranch:
-    Type: String
-    Default: main
-    Description: GitHub branch to monitor
-  GitHubConnectionArn:
-    Type: String
-    Description: Connection arn that connects to github
+  # GitHubBranch:
+  #   Type: String
+  #   Default: main
+  #   Description: GitHub branch to monitor
+  # GitHubConnectionArn:
+  #   Type: String
+  #   Description: Connection arn that connects to github
 
 Resources:
 
@@ -68,8 +68,9 @@ Resources:
               OutputArtifacts:
                 - Name: SourceOutput
               Configuration:
-                BranchName: !Ref GitHubBranch
-                ConnectionArn: !Ref GitHubConnectionArn
+                BranchName: main
+                ConnectionArn: >- 
+                  arn:aws:codeconnections:us-east-1:885885860822:connection/814e63dc-c551-415a-bb99-bf05ade9445f
                 FullRepositoryId: tejas-futuralis/codepipeline-cloudformation
               RunOrder: 1                                         
 
@@ -110,7 +111,8 @@ Resources:
   Webhook:
     Type: AWS::CodePipeline::Webhook
     Properties:
-      ConnectionArn: !Ref GitHubConnectionArn
+      ConnectionArn: >-
+        arn:aws:codeconnections:us-east-1:885885860822:connection/814e63dc-c551-415a-bb99-bf05ade9445f
       Filters:
       - JsonPath: "$.ref"
         MatchEquals: refs/heads/main
