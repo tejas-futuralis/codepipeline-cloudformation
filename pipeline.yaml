@@ -73,7 +73,7 @@ Resources:
           - Name: ARTIFACT_BUCKET
             Value: !Ref ArtifactBucket
           - Name: FUNCTION_NAME
-            Value: "MyLambdaFunction"
+            Value: MyLambdaFunction
       Source: 
         Type: CODEPIPELINE
         BuildSpec: buildspecs/lambda-buildspec.yaml
@@ -187,6 +187,5 @@ Resources:
                 Version: 1
               Configuration:
                 FunctionName: MyLambdaFunction
-                UserParameters: '{"triggeredBy":"codepipeline"}'
               RunOrder: 1
 
