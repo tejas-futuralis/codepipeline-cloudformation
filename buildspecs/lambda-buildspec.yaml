@@ -6,9 +6,12 @@ phases:
       nodejs: 18
   build:
     commands:
-      - echo "Zipping Lambda function..."
-      - mkdir -p build
+      - echo "Listing folder contents:"
+      - ls -R
+      - echo "Zipping Lambda code…"
       - zip -r build/lambda-code.zip lambda/*
+      - test -f build/lambda-code.zip || (echo "❌ zip missing!" && exit 1)
 artifacts:
+  base-directory: build
   files:
-    - build/lambda-code.zip
+    - lambda-code.zip
