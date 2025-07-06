@@ -69,6 +69,9 @@ Resources:
         ComputeType: BUILD_GENERAL1_SMALL
         Image: aws/codebuild/standard:7.0
         Type: LINUX_CONTAINER
+        EnvironmentVariables:
+          - Name: ARTIFACT_BUCKET
+            Value: !Ref ArtifactBucket
       Source: 
         Type: CODEPIPELINE
         BuildSpec: buildspecs/lambda-buildspec.yaml
