@@ -20,6 +20,7 @@ Resources:
             Principal:
               Service: 
               - codepipeline.amazonaws.com
+              - cloudformation.amazonaws.com
             Action: sts:AssumeRole
       Policies:
         - PolicyName: CodePipelinePermissions
