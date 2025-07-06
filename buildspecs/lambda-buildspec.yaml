@@ -11,7 +11,7 @@ phases:
       - zip -r ../lambda-code.zip .
       - cd ..
       - echo "Uploading Lambda code to S3"
-      #- aws s3 cp lambda-code.zip s3://$ARTIFACT_BUCKET/lambda-code.zip
+      - aws s3 cp lambda-code.zip s3://$ARTIFACT_BUCKET/lambda-code.zip
 artifacts:
   files:
     - lambda-code.zip
