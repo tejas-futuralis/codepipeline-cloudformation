@@ -6,10 +6,12 @@ phases:
       nodejs: 18
   build:
     commands:
-      - echo "Zipping Lambda function..."
-      - mkdir -p build
-      - zip -r build/lambda-code.zip lambda/*
+      - echo "Zipping Lambda code..."
+      - cd lambda
+      - zip -r ../lambda-code.zip .
+      - cd ..
+      - echo "Uploading Lambda code to S3"
+      #- aws s3 cp lambda-code.zip s3://$ARTIFACT_BUCKET/lambda-code.zip
 artifacts:
-  base-directory: build
   files:
     - lambda-code.zip
