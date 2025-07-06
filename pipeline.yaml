@@ -72,6 +72,8 @@ Resources:
         EnvironmentVariables:
           - Name: ARTIFACT_BUCKET
             Value: !Ref ArtifactBucket
+          - Name: FUNCTION_NAME
+            Value: "MyLambdaFunction"
       Source: 
         Type: CODEPIPELINE
         BuildSpec: buildspecs/lambda-buildspec.yaml
@@ -171,8 +173,7 @@ Resources:
                 ParameterOverrides: !Sub |
                   {
                     "LambdaCodeBucket": "${ArtifactBucket}",
-                    "LambdaCodeKey": "lambda-code.zip",
-                    "LambdaCodeVersion": "#{LambdaBuildOutput.lambda-code.zip.S3VersionId}"
+                    "LambdaCodeKey": "lambda-code.zip"
                   }
                 RoleArn: !GetAtt PipelineRole.Arn
 

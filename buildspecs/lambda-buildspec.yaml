@@ -12,6 +12,19 @@ phases:
       - cd ..
       - echo "Uploading Lambda code to S3"
       - aws s3 cp lambda-code.zip s3://$ARTIFACT_BUCKET/lambda-code.zip
+
+      - |
+        if aws lambda get-function --function-name $FUNCTION_NAME; then
+          echo "Function exists, updating code..."
+          aws lambda update-function-code \
+            --function-name $FUNCTION_NAME \
+            --s3-bucket $ARTIFACT_BUCKET \
+            --s3-key lambda-code.zip
+        else
+          echo "Function does not exist. Skipping update — will be created by CloudFormation."
+        fi
+
+
 artifacts:
   files:
     - lambda-code.zip
