@@ -1,19 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-# Parameters:
-  # GitHubOwner:
-  #   Type: String
-  #   Description: GitHub repository owner 
-  # GitHubRepo:
-  #   Type: String
-  #   Description: GitHub repository name 
-  # GitHubBranch:
-  #   Type: String
-  #   Default: main
-  #   Description: GitHub branch to monitor
-  # GitHubConnectionArn:
-  #   Type: String
-  #   Description: Connection arn that connects to github
 
 Resources:
 
@@ -34,7 +20,6 @@ Resources:
             Principal:
               Service: 
               - codepipeline.amazonaws.com
-              - cloudformation.amazonaws.com
             Action: sts:AssumeRole
       Policies:
         - PolicyName: CodePipelinePermissions
