@@ -8,6 +8,8 @@ phases:
     commands:
       - echo "Zipping Lambda code..."
       - cd lambda
+      - npm init -y
+      - npm install aws-sdk
       - zip -r ../lambda-code.zip .
       - cd ..
       - echo "Uploading Lambda code to S3"
