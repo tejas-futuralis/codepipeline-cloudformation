@@ -1,0 +1,14 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+  build:
+    commands:
+      - echo "Zipping Lambda function..."
+      - mkdir -p build
+      - zip -r build/lambda-code.zip lambda/*
+artifacts:
+  files:
+    - build/lambda-code.zip

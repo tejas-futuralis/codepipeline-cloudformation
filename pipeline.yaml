@@ -32,7 +32,45 @@ Resources:
                   - s3:*
                   - iam:*
                   - codestar-connections:*
+                  - lambda:*
                 Resource: "*"
+
+  CodeBuildServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: codebuild.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: LambdaBuildAccess
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:*
+                  - logs:*
+                Resource: "*"
+
+  LambdaBuildProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: LambdaBuild
+      ServiceRole: !GetAtt CodeBuildServiceRole.Arn
+      Artifacts:
+        Type: CODEPIPELINE
+      Environment:
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/standard:7.0
+        Type: LINUX_CONTAINER
+      Source: 
+        Type: CODEPIPELINE
+        BuildSpec: buildspecs/lambda-buildspec.yaml
+      
 
   MyCodePipeline:
     Type: AWS::CodePipeline::Pipeline
@@ -93,3 +131,55 @@ Resources:
                 TemplatePath: SourceOutput::iam.yaml
                 Capabilities: CAPABILITY_NAMED_IAM
                 RoleArn: !GetAtt PipelineRole.Arn
+
+        - Name: BuildLambda
+          Actions:
+            - Name: Build_Lambda
+              ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Provider: CodeBuild
+                Version: 1
+              InputArtifacts:
+                - Name: SourceOutput
+              OutputArtifacts:
+                - Name: LambdaBuildOutput
+              Configuration:
+                ProjectName: !Ref LambdaBuildProject  
+
+        - Name: DeployLambda
+          Actions:
+            - Name: Deploy_Lambda
+              ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Provider: CloudFormation
+                Version: 1
+              InputArtifacts:
+                - Name: LambdaBuildOutput
+                - Name: SourceOutput
+              Configuration:
+                ActionMode: CREATE_UPDATE
+                StackName: MyLambdaStack
+                TemplatePath: SourceOutput::templates/lambda.yaml
+                Capabilities: CAPABILITY_NAMED_IAM
+                ParameterOverrides: !Sub |
+                  {
+                    "LambdaCodeBucket": "${ArtifactBucket}",
+                    "LambdaCodeKey": "build/lambda-code.zip"
+                  }
+                RoleArn: !GetAtt PipelineRole.Arn
+
+        - Name: InvokeLambda
+          Actions:
+            - Name: Run_Lambda
+              ActionTypeId:
+                Category: Invoke
+                Owner: AWS
+                Provider: Lambda
+                Version: 1
+              Configuration:
+                FunctionName: MyLambdaFunction
+                UserParameters: '{"triggeredBy":"codepipeline"}'
+              RunOrder: 1
+
