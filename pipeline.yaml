@@ -34,6 +34,7 @@ Resources:
                   - iam:*
                   - codestar-connections:*
                   - lambda:*
+                  - codebuild:*
                 Resource: "*"
 
   CodeBuildServiceRole:
