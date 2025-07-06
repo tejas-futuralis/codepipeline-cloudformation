@@ -171,7 +171,8 @@ Resources:
                 ParameterOverrides: !Sub |
                   {
                     "LambdaCodeBucket": "${ArtifactBucket}",
-                    "LambdaCodeKey": "lambda-code.zip"
+                    "LambdaCodeKey": "lambda-code.zip",
+                    "LambdaCodeVersion": "#{LambdaBuildOutput.lambda-code.zip.S3VersionId}"
                   }
                 RoleArn: !GetAtt PipelineRole.Arn
 
