@@ -43,4 +43,3 @@ Resources:
       Code:
         S3Bucket: !Ref LambdaCodeBucket
         S3Key: !Ref LambdaCodeKey
-        S3ObjectVersion: !Ref LambdaCodeVersion
