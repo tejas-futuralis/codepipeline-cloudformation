@@ -10,5 +10,6 @@ phases:
       - mkdir -p build
       - zip -r build/lambda-code.zip lambda/*
 artifacts:
+  base-directory: build
   files:
-    - '**/*'
+    - lambda-code.zip
