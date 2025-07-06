@@ -111,7 +111,7 @@ Resources:
               Configuration:
                 ActionMode: CREATE_UPDATE
                 StackName: MyS3Stack
-                TemplatePath: SourceOutput::s3.yaml
+                TemplatePath: SourceOutput::templates/s3.yaml
                 Capabilities: CAPABILITY_NAMED_IAM
                 RoleArn: !GetAtt PipelineRole.Arn
 
@@ -128,7 +128,7 @@ Resources:
               Configuration:
                 ActionMode: CREATE_UPDATE
                 StackName: MyIAMStack
-                TemplatePath: SourceOutput::iam.yaml
+                TemplatePath: SourceOutput::templates/iam.yaml
                 Capabilities: CAPABILITY_NAMED_IAM
                 RoleArn: !GetAtt PipelineRole.Arn
 
